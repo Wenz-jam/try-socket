@@ -3,15 +3,38 @@
 #include<fcntl.h>
 #include<sys/socket.h>
 #include<arpa/inet.h>
+#include<ifaddrs.h>
 #include<string.h>
 #include<stdlib.h>
+#include <sys/ioctl.h>
+#include <net/if.h>
 #define	PORT 8080
-#define IP "100.110.146.151"
+#define IP GetLocalIp()
+//#define IP "100.110.146.151"
 //###
-char *getip(){
-
-	return 0;
+char* GetLocalIp()                                                                              {                                                                                                   int MAXINTERFACES=16;
+    char *ip = NULL;
+    int fd, intrface, retn = 0;                                                                     struct ifreq buf[MAXINTERFACES];                                                                struct ifconf ifc;
+    if ((fd = socket(AF_INET, SOCK_DGRAM, 0)) >= 0){
+	    ifc.ifc_len = sizeof(buf);
+	    ifc.ifc_buf = (caddr_t)buf;
+	    if (!ioctl(fd, SIOCGIFCONF, (char *)&ifc)){
+		    intrface = ifc.ifc_len / sizeof(struct ifreq);
+		    while (intrface-- > 0){
+			    if (!(ioctl (fd, SIOCGIFADDR, (char *) &buf[intrface])))
+			    {
+				    ip=(inet_ntoa(((struct sockaddr_in*)(&buf[intrface].ifr_addr))->sin_addr));
+				    break;
+			    }
+		    }
+	    }
+	    close(fd);
+	    printf("ip:%s\n",ip);
+	    return ip;
+    }                                                                                          
 }
+//char* wenz_local_ip;
+//wenz_local_ip=GetLocalIp();
 void* process(void* arg){
 	int c_sockfd=*((int*)arg);
 	char filename[100]={0};
