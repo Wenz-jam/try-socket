@@ -8,6 +8,10 @@
 #define	PORT 8080
 #define IP "100.110.146.151"
 //###
+char *getip(){
+
+	return 0;
+}
 void* process(void* arg){
 	int c_sockfd=*((int*)arg);
 	char filename[100]={0};
