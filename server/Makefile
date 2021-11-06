@@ -1,5 +1,5 @@
 CC=gcc
-client:client.c
-	$(CC) *.c -o client.e
+client:s.c
+	$(CC) *.c -o server.e
 clean:
 	rm -rf *.e
