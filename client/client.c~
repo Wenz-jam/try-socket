@@ -52,8 +52,7 @@ int main(void){
 */	
 	while(1){
 		char buf[200] = {0};
-		printf("input> ");
-		fflush(stdout);
+		printf("input> ");fflush(stdout);
 		gets(buf);
 		write(c_sockfd, buf, 100);
 		bzero(buf, 100);

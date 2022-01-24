@@ -12,12 +12,10 @@
 #define IP GetLocalIp()
 //#define IP "100.110.146.151"
 //###
-char* GetLocalIp(){
-	int MAXINTERFACES=16;
-	char *ip = NULL;
-	int fd, intrface, retn = 0;
-	struct ifreq buf[MAXINTERFACES];struct ifconf ifc;
-    	if ((fd = socket(AF_INET, SOCK_DGRAM, 0)) >= 0){
+char* GetLocalIp()                                                                              {                                                                                                   int MAXINTERFACES=16;
+    char *ip = NULL;
+    int fd, intrface, retn = 0;                                                                     struct ifreq buf[MAXINTERFACES];                                                                struct ifconf ifc;
+    if ((fd = socket(AF_INET, SOCK_DGRAM, 0)) >= 0){
 	    ifc.ifc_len = sizeof(buf);
 	    ifc.ifc_buf = (caddr_t)buf;
 	    if (!ioctl(fd, SIOCGIFCONF, (char *)&ifc)){
@@ -35,6 +33,8 @@ char* GetLocalIp(){
 	    return ip;
     }                                                                                          
 }
+//char* wenz_local_ip;
+//wenz_local_ip=GetLocalIp();
 void* process(void* arg){
 	int c_sockfd=*((int*)arg);
 	char filename[100]={0};

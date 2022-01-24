@@ -4,8 +4,8 @@
 #include<arpa/inet.h>
 #include<stdlib.h>
 #include<string.h>
-#define PORT 80
-#define IP "40.126.35.86"//the ip for Server
+#define PORT 8080
+#define IP "127.0.0.1"//the ip for Server
 //
 //
 //
@@ -18,16 +18,14 @@ int main(void){
 	int addrlen = sizeof(struct sockaddr_in);
 //	创建套接字
 	int c_sockfd=socket(AF_INET,SOCK_STREAM,0);
-	printf("makeing socket\n");
 	if(c_sockfd==-1){
-		perror("socket error!\n");
+		perror("socket error!");
 		exit(-1);
 	}
 	memset(&s_addr,0,addrlen);
 	s_addr.sin_family=AF_INET;
 	s_addr.sin_port=htons(PORT);
 	s_addr.sin_addr.s_addr=inet_addr(IP);
-	printf("listening\n");
 //	原来客户端不用opt和bind的，傻了
 /*	int opt=1;
 	setsockopt(c_sockfd,SOL_SOCKET,SO_REUSEADDR,
@@ -40,7 +38,7 @@ int main(void){
 */
 //	if(connect(c_sockfd,(struct sockaddr*)&s_addr,10)==-1){
 	if(connect(c_sockfd,(struct sockaddr*)&s_addr, sizeof(s_addr))==-1){
-		perror("liten error!\n");
+		perror("liten error!");
 		exit(1);
 	}
 	printf("listen successful\n");
@@ -52,8 +50,7 @@ int main(void){
 */	
 	while(1){
 		char buf[200] = {0};
-		printf("input> ");
-		fflush(stdout);
+		printf("input> ");fflush(stdout);
 		gets(buf);
 		write(c_sockfd, buf, 100);
 		bzero(buf, 100);
