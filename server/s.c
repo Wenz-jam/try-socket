@@ -8,9 +8,10 @@
 #include<stdlib.h>
 #include <sys/ioctl.h>
 #include <net/if.h>
-#define	PORT 8080
-#define IP GetLocalIp()
-//#define IP "100.110.146.151"
+#define	PORT 10604
+
+//#define IP GetLocalIp()
+#define IP "127.0.0.1"
 //###
 char* GetLocalIp(){
 	int MAXINTERFACES=16;
@@ -47,7 +48,7 @@ void* process(void* arg){
 		//printf("%c",c);
 	}
 	int i=0;
-	while(1){
+	while(i<99){
 		if(read(c_sockfd,&c,1)==0)
 			break;
 		if(c==' ')
